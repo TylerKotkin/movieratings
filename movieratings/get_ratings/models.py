@@ -7,16 +7,16 @@ class Rater(models.Model):
     pass
     # rater_id = models.PositiveIntegerField()
     #
-    # def __str__(self):
-    #     return 'Rater ID: {}'.format(self.rater_id)
+    def __str__(self):
+        return str(self.id)
 
 
 class Movie(models.Model):
     movie_name = models.CharField(max_length=150)
-    movie_id = models.PositiveIntegerField()
+    # movie_id = models.PositiveIntegerField()
 
     def __str__(self):
-        return '{}: {}'.format(self.movie_name, self.movie_id)
+        return self.movie_name
 
 
 class Rating(models.Model):
@@ -25,4 +25,4 @@ class Rating(models.Model):
     rating = models.FloatField()
 
     def __str__(self):
-        return self.rating
+        return 'user {} gave {} {} stars.'.format(self.rater_id, self.movie, self.rating)

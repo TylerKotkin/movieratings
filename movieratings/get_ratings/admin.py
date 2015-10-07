@@ -7,11 +7,11 @@ class RaterAdmin(admin.ModelAdmin):
 
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ['movie_name', 'movie_id']
+    list_display = ['id', 'movie_name']
 
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ['id', 'movie', 'rating']
+    list_display = ['rater_id', 'movie', 'rating']
 
 # Register your models here.
 admin.site.register(Rater, RaterAdmin)
