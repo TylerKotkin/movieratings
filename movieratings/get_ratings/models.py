@@ -8,7 +8,7 @@ class Rater(models.Model):
     # rater_id = models.PositiveIntegerField()
     #
     def __str__(self):
-        return str(self.id)
+        return 'user id: {}'.format(self.id)
 
 
 class Movie(models.Model):
@@ -20,9 +20,9 @@ class Movie(models.Model):
 
 
 class Rating(models.Model):
-    rater_id = models.ForeignKey(Rater)
+    rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     rating = models.FloatField()
 
     def __str__(self):
-        return 'user {} gave {} {} stars.'.format(self.rater_id, self.movie, self.rating)
+        return 'user {} gave {} {} stars.'.format(self.rater, self.movie, self.rating)
