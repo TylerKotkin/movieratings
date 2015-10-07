@@ -4,10 +4,11 @@ from django.db import models
 
 
 class Rater(models.Model):
-    rater_id = models.PositiveIntegerField()
-
-    def __str__(self):
-        return 'Rater ID: {}'.format(self.rater_id)
+    pass
+    # rater_id = models.PositiveIntegerField()
+    #
+    # def __str__(self):
+    #     return 'Rater ID: {}'.format(self.rater_id)
 
 
 class Movie(models.Model):
