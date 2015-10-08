@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     url(r'^movies/', views.movie_view),
     url(r'^raters/', views.rater_view),
+    url(r'^top/', views.top_movies),
 ]

@@ -12,6 +12,14 @@ def movie_view(request):
 
 
 
+
+def top_movies(request):
+    movies = Movie.objects.order_by('rating')[:20]
+    top_20 = [str(movie) for movie in movies]
+    return HttpResponse('<br>'.join(top_20))
+
+
+
 def rater_view(request):
     raters = Rater.objects.all()
     rater_strings = [str(rater) for rater in raters]
