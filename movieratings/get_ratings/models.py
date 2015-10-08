@@ -52,9 +52,9 @@ def load_ml_data():
     users = []
 
     with open('ml-1m/users.dat') as f:
-        reader = csv.DictReader(f,
-                                filednames='',
-                                delimiter='')
+        reader = csv.DictReader([line.replace('::', '\t') for line in f],
+                                fieldnames='UserID::Gender::Age::Occupation::Zip-code'.split('::'),
+                                delimiter='\t')
         for row in reader:
             user = {
                 'fields': {
@@ -72,4 +72,4 @@ def load_ml_data():
     with open('users.json', 'w') as f:
         f.write(json.dumps(users))
 
-    # print(json.dumps(users, sort_keys=True, indent=4, separators=(',', ': ')))
+    print(json.dumps(users, sort_keys=True, indent=4, separators=(',', ': ')))
