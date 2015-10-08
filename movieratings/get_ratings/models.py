@@ -25,14 +25,14 @@ class Rater(models.Model):
 
 
 class Movie(models.Model):
-    movie_name = models.CharField(max_length=150)
+    title = models.CharField(max_length=150)
     # movie_id = models.PositiveIntegerField()
 
     def average_rating(self):
         return self.rating_set.aggregate(models.Avg('stars'))['stars__avg']
 
     def __str__(self):
-        return self.movie_name
+        return self.title
 
 
 class Rating(models.Model):
@@ -72,4 +72,47 @@ def load_ml_data():
     with open('users.json', 'w') as f:
         f.write(json.dumps(users))
 
-    print(json.dumps(users, sort_keys=True, indent=4, separators=(',', ': ')))
+    # print(json.dumps(users, sort_keys=True, indent=4, separators=(',', ': ')))
+
+    ratings = []
+
+    with open('ml-1m/ratings.dat') as f:
+        reader = csv.DictReader([line.replace('::', '\t') for line in f],
+                                fieldnames='UserID::MovieID::Rating'.split('::'),
+                                delimiter='\t')
+        for row in reader:
+            rating = {
+                'fields': {
+                    'stars': row['Rating'],
+                    'user': row['UserID'],
+                    'movie': row['MovieID']
+                },
+                'model': 'get_ratings.Rating',
+            }
+
+            ratings.append(rating)
+
+
+    with open('ratings.json', 'w') as f:
+        f.write(json.dumps(ratings))
+
+
+    movies = []
+
+    with open('ml-1m/movies.dat', encoding='windows-1252') as f:
+        reader = csv.DictReader([line.replace('::', '\t') for line in f],
+                                fieldnames='MovieID::Title::Genres'.split('::'),
+                                delimiter='\t')
+        for row in reader:
+            movie = {
+                'fields': {
+                    'title': row['Title']
+                },
+                'model': 'get_ratings.Movie',
+                'pk': row['MovieID']
+            }
+
+            movies.append(movie)
+
+    with open('movies.json', 'w') as f:
+        f.write(json.dumps(movies))

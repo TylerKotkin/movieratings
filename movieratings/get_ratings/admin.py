@@ -7,7 +7,7 @@ class RaterAdmin(admin.ModelAdmin):
 
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ['id', 'movie_name']
+    list_display = ['id', 'title']
 
 
 class RatingAdmin(admin.ModelAdmin):
