@@ -30,6 +30,7 @@ class Movie(models.Model):
 
     def average_rating(self):
         return self.rating_set.aggregate(models.Avg('stars'))['stars_avg']
+    
 
     def __str__(self):
         return '{}:{}'.format(self.id, self.title)
