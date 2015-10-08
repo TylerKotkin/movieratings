@@ -29,8 +29,8 @@ class Movie(models.Model):
     # movie_id = models.PositiveIntegerField()
 
     def average_rating(self):
-        return self.rating_set.aggregate(models.Avg('stars'))['stars_avg']
-    
+        return self.rating_set.aggregate(models.Avg('stars')) ['stars__avg']
+
 
     def __str__(self):
         return '{}:{}'.format(self.id, self.title)
