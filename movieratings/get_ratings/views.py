@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Count, Avg
 from .models import Movie, Rater
 
 # Create your views here.
@@ -17,7 +18,9 @@ def movie_view(request, movie_id):
 
 
 def top_movies(request):
-    movies = Movie.objects.order_by('-rating')[:20]
+    movies = Movie.objects.annotate(Avg('rating__stars')).order_by('-rating__stars__avg')[:20]
+
+    # movies = Movie.objects.order_by('-rating')[:20]
     top_20 = [str(movie) for movie in movies]
     return HttpResponse('<br>'.join(top_20))
 
