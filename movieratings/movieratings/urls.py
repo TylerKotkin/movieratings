@@ -20,7 +20,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^ratings/', include('get_ratings.urls')),
+    url(r'', include('get_ratings.urls')),
 
 
 ]

@@ -21,7 +21,8 @@ class Rater(models.Model):
     occupation = models.CharField(max_length=40)
 
     def __str__(self):
-        return 'user id: {}. {} {} {} {} '.format(self.id, self.gender, self.zipcode, self.age, self.occupation)
+        return 'user id: {}.'.format(self.id)
+        # return 'user id: {}. {} {} {} {} '.format(self.id, self.gender, self.zipcode, self.age, self.occupation)
 
 
 class Movie(models.Model):
@@ -37,12 +38,12 @@ class Movie(models.Model):
 
 
 class Rating(models.Model):
-    user = models.ForeignKey(Rater)
+    rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    stars = models.FloatField()
+    stars = models.PositiveIntegerField()
 
     def __str__(self):
-        return 'user {} gave {} {} stars.'.format(self.user, self.movie, self.stars)
+        return 'user {} gave {} {} stars.'.format(self.rater, self.movie, self.stars)
 
 
 def load_ml_data():
