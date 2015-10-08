@@ -1,6 +1,7 @@
 <h2>{{ movie.title }}</h2>
 
-<h4>Average rating: {{ movie.average_rating|floatformat }} &#9733;</h4>
+<h4> Movie ID: {{ movie.pk }} </h4>
+<h4> Average rating: {{ movie.average_rating|floatformat }} &#9733;</h4>
 
 <ul>
 {% for rating in movie.rating_set.all %}
