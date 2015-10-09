@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib import messages
 
 from .forms import UserForm
 # Create your views here.
@@ -15,6 +15,9 @@ def user_login(request):
 
         if user is not None and user.is_active:
             login(request, user)
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 "Welcome {}!".format(user.username))
             return redirect('top_movies')
 
         else:

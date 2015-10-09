@@ -5,6 +5,13 @@
 </head>
 <body>
   <h1>Movie Ratings</h1>
+  {% if messages %}
+      <ul class+"messages">
+      {% for message in messages %}
+      <li class="{{ messages.tags}}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
   {% block content %}
   {% endblock %}
 
