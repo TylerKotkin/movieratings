@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import UserForm
@@ -9,9 +9,6 @@ from .forms import UserForm
 
 def logout_view(request):
     logout(request)
-    messages.add_message(request,
-                                 messages.SUCCESS,
-                                 "{} succesfully logged out.".format(user.username))
     return redirect('top_movies')
 
 
