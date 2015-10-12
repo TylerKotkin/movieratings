@@ -10,10 +10,9 @@
       {% for message in messages %}
       <li class="{{ messages.tags}}">{{ message }}</li>
       {% endfor %}
+    </ul>
+  {% endif %}
   {% block content %}
   {% endblock %}
-<a href="{% url 'user_login' %}">login</a>
-<a href="{% url 'user_logout' %}">logout</a>
-<a href="{% url 'user_register' %}">register</a>
 </body>
 </html>
