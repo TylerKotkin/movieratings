@@ -46,7 +46,7 @@ def load_ml_data():
             ratings.append(rating)
 
 
-    with open('ratings.json', 'w') as f:
+    with open('fixtures/ratings.json', 'w') as f:
         f.write(json.dumps(ratings))
 
 

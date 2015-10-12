@@ -4,10 +4,9 @@ from django.db import models
 
 class Movie(models.Model):
     title = models.CharField(max_length=150)
-    # movie_id = models.PositiveIntegerField()
 
     def average_rating(self):
-        return self.rating_set.aggregate(models.Avg('stars')) ['stars__avg']
+        return self.rating_set.aggregate(models.Avg('stars'))['stars__avg']
 
 
     def __str__(self):
@@ -39,6 +38,9 @@ class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     stars = models.PositiveIntegerField()
+
+    def create_rating(rater, movie, stars):
+        return Rating.objects.create(rater=rater, movie=movie, stars=stars)
 
     def __str__(self):
         return 'user {} gave {} {} stars.'.format(self.rater, self.movie, self.stars)

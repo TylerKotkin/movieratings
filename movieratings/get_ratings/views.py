@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Count, Avg
 from .models import Movie, Rater
+from django import forms
 
 # Create your views here.
 
@@ -19,6 +20,14 @@ def top_movies(request):
 
 def movie_view(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
+    # if request.method == 'POST':
+    #     if request.user.is_authenticated():
+    #             form = RatingForm(request.POST)
+    #             if form.is_valid():
+    #                 Rating.create_rating(movie=movie, rater=request.user.rater, stars=request.POST['rating'])
+    #
+    #     else:
+    #         return redirect('user_login')
     return render(request,
                   'get_ratings/movies.html',
                   {'movie': movie})
