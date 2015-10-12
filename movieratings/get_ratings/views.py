@@ -28,7 +28,7 @@ def top_movies(request):
     movies = popular_movies.annotate(Avg('rating__stars')) \
                            .order_by('-rating__stars__avg')[:20]
 
-    most_movies = Movie.objects.order_by('-rating')[:20]
+    most_movies = Movie.objects.annotate(num_ratings=Count('rating')).order_by('-num_ratings')[:20]
 
     return render(request,
                   'get_ratings/top_movies.html',
