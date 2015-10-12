@@ -52,7 +52,6 @@ def user_register(request):
                   {'form': form})
 
 
-
 def logout_view(request):
     logout(request)
     return redirect('top_movies')
