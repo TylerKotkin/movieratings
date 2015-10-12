@@ -1,7 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Count, Avg
 from .models import Movie, Rater
+
+from datetime import datetime
+from django.contrib import messages
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
+
 
 # Create your views here.
 
@@ -33,15 +40,7 @@ def top_movies(request):
     return render(request,
                   'get_ratings/top_movies.html',
                   {'movies': movies,
-                  'most_movies': most_movies})
-
-
-# def most_movies(request):
-#     # most_movies = Movie.objects.annotate(num_ratings=Count('rating')).order_by('-rating')[:20]
-#     most_movies = Movie.objects.order_by('-rating')[:20]
-#     return render(request,
-#                   'get_ratings/top_movies.html',
-#                   {'most_movies': most_movies})
+                   'most_movies': most_movies})
 
 
 def rater_view(request, rater_id):
@@ -56,5 +55,22 @@ def rater_view(request, rater_id):
         })
     return render(request,
                   'get_ratings/users.html',
+                  {'rater': rater,
+                   'movie_ratings': movie_ratings})
+
+
+@login_required
+def profile_view(request, rater_id):
+    rater = Rater.objects.get(pk=rater_id)
+    # ratings = rater.rating_set.all()
+    # return HttpResponse(rater)
+    movie_ratings = []
+    for rating in rater.rating_set.all():
+        movie_ratings.append({
+            'movie': rating.movie,
+            'stars': '\u2605' * rating.stars,
+        })
+    return render(request,
+                  'get_ratings/profile.html',
                   {'rater': rater,
                    'movie_ratings': movie_ratings})
