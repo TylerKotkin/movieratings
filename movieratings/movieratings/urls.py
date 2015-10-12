@@ -20,6 +20,7 @@ from users import views as user_views
 
 urlpatterns = [
     url(r'^admin', include(admin.site.urls)),
+    url(r'^register', user_views.user_register, name='user_register'),
     url(r'^login', user_views.user_login, name='user_login'),
     url(r'^', include('get_ratings.urls')),
 ]
