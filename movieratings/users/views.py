@@ -9,6 +9,9 @@ from .forms import UserForm
 
 def logout_view(request):
     logout(request)
+    messages.add_message(request,
+                                 messages.SUCCESS,
+                                 "{} succesfully logged out.".format(user.username))
     return redirect('top_movies')
 
 
@@ -42,6 +45,9 @@ def user_login(request):
 
         if user is not None and user.is_active:
             login(request, user)
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 "Welcome {}!".format(user.username))
             return redirect('top_movies')
 
         else:
