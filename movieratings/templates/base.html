@@ -5,11 +5,12 @@
 </head>
 <body>
 
-  <div style="float:right;">
+  <div style="float:right;" align="right">
       {% if user.is_authenticated %}
+      Logged in as {{user.username}} <br>
       <a href="{% url 'user_logout' %}">logout</a>
       {% else %}
-    <a href="{% url 'user_login' %}">login</a>
+    <a href="{% url 'user_login' %}">login</a> <br>
     <a href="{% url 'user_register' %}">register</a>
       {% endif %}
   </div>
