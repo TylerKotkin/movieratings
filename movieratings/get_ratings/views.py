@@ -27,10 +27,21 @@ def top_movies(request):
 
     movies = popular_movies.annotate(Avg('rating__stars')) \
                            .order_by('-rating__stars__avg')[:20]
+
+    most_movies = Movie.objects.order_by('-rating')[:20]
+
     return render(request,
                   'get_ratings/top_movies.html',
-                  {'movies': movies})
+                  {'movies': movies,
+                  'most_movies': most_movies})
 
+
+# def most_movies(request):
+#     # most_movies = Movie.objects.annotate(num_ratings=Count('rating')).order_by('-rating')[:20]
+#     most_movies = Movie.objects.order_by('-rating')[:20]
+#     return render(request,
+#                   'get_ratings/top_movies.html',
+#                   {'most_movies': most_movies})
 
 
 def rater_view(request, rater_id):
