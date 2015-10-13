@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<h2>User: {{ rater.user }}</h2>
-
+<h2>User: {{ rater.user.username }}</h2>
+{% if user == rater.user %}
 <h3>Rated Movies</h3>
 <p> Click on a movie to edit or delete its rating.</p>
 <ul>
@@ -12,6 +12,16 @@
     Time stamp: {{rating.posted_at}}</li> <br>
   {% endfor %}
 </ul>
+{% endif %}
 
+<h3>User Info</h3>
+
+<dl>
+  <dt>User ID#: {{ rater.pk }}</dt>
+  <dt>Gender: {{ rater.gender }}</dt>
+  <dt>Age Code: {{ rater.age }}</dt>
+  <dt>Zip Code: {{ rater.zipcode }}</dt>
+  <dt>Occupation Code: {{ rater.occupation }}</dt>
+</dl>
 
 {% endblock %}
