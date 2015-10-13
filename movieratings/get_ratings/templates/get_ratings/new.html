@@ -4,7 +4,7 @@
 
 <h2>New Rating</h2>
 
-<form method="POST" action="{% url 'new_rating' %}">
+<form method="POST" action="{% url 'new_rating' movie.pk %}">
   {% csrf_token %}
   {{ form.as_p }}
 

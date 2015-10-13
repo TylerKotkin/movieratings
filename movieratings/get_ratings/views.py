@@ -47,14 +47,18 @@ def top_movies(request):
 
 def rater_view(request, rater_id):
     rater = Rater.objects.get(pk=rater_id)
+
     # ratings = rater.rating_set.all()
+
     # return HttpResponse(rater)
+
     movie_ratings = []
     for rating in rater.rating_set.all():
         movie_ratings.append({
             'movie': rating.movie,
             'stars': '\u2605' * rating.stars,
         })
+    movie_ratings = rater.rating_set.all().order_by('-stars')
     return render(request,
                   'get_ratings/users.html',
                   {'rater': rater,
@@ -83,18 +87,36 @@ def new_rating(request, movie_id):
         form = RatingForm(request.POST)
         if form.is_valid():
             rating = form.save(commit=False)
-            rating.user = request.user
-            rating.posted_at = datetime.now()
+            rating.rater = request.user.rater
+            rating.movie = Movie.objects.get(pk=movie_id)
             rating.save()
-
-            messages.add_message(request, messages.SUCCESS,
-                                 "Your rating has been posted!")
-
-            return redirect('profile_view')
+            return redirect('movie_view', rating.movie.pk)
     else:
         form = RatingForm()
+    return render(request,
+                  'get_ratings/new.html',
+                  {'form': form, 'movie': Movie.objects.get(pk=movie_id)})
 
-    return render(request, 'get_ratings/new.html', {'form': form})
+
+@login_required
+def edit_rating(request):
+    try:
+        rating = request.user.rater
+    except Rating.DoesNotExist:
+        rating = Rating(user=request.user)
+
+    if request.method == 'GET':
+        rating_form = RatingForm(instance=rating)
+    elif request.method == 'POST':
+        rating_form = RatingForm(instance=rating, data=request.POST)
+
+        if rating_form.is_valid():
+            rating_form.save()
+            messages.add_message(request, messages.SUCCESS, 'Your rating has been updated')
+
+    return render(request,
+                  'get_ratings/edit_rating.html', {'form': rating_form})
+
 
 @login_required
 def remove_rating(request, movie_id):
