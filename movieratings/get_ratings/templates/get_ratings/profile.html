@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>User ID: {{ rater.pk }}</h2>
+
+
+
+<ul>
+  {% for rating in movie_ratings %}
+    <li><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a> - {{ rating.stars }}</li>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}

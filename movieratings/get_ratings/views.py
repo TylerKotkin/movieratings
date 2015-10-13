@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Count, Avg
-from .models import Movie, Rater
+from .models import Movie, Rater, Rating
 
 from datetime import datetime
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from .forms import RatingForm
 
 
 
@@ -74,3 +76,22 @@ def profile_view(request, rater_id):
                   'get_ratings/profile.html',
                   {'rater': rater,
                    'movie_ratings': movie_ratings})
+
+@login_required
+def new_rating(request):
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.user = request.user
+            rating.posted_at = datetime.now()
+            rating.save()
+
+            messages.add_message(request, messages.SUCCESS,
+                                 "Your rating has been posted!")
+
+            return redirect('profile_view')
+    else:
+        form = RatingForm()
+
+    return render(request, 'get_ratings/new.html', {'form': form})
