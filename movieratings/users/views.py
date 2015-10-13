@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-# from .models import Profile
+from .models import UserProfile
 from .forms import UserForm
 # Create your views here.
 
@@ -43,7 +43,7 @@ def user_register(request):
             user.set_password(password)
             user.save()
 
-            profile = Profile(
+            profile = UserProfile(
                 user=user,
             )
             profile.save()

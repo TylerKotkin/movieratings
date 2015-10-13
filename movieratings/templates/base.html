@@ -8,7 +8,7 @@
   <div style="float:right;" align="right">
       {% if user.is_authenticated %}
       Logged in as {{user.username}} <br>
-      <a href="{% url 'profile_view' user.rater.pk %}">profile</a> <br>
+      <a href="{% url 'profile_view' user.pk %}">profile</a> <br>
       <a href="{% url 'user_logout' %}">logout</a>
       {% else %}
     <a href="{% url 'user_login' %}">login</a> <br>
