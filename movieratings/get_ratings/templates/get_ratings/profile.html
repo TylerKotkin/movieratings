@@ -4,11 +4,11 @@
 
 <h2>User: {{ rater.user }}</h2>
 
-
-
+<h3>Rated Movies</h3>
+<p> Click on a movie to edit or delete its rating.</p>
 <ul>
   {% for rating in movie_ratings %}
-    <li><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a> - {{ rating.stars }}</li>
+    <li><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a> - {{ rating.stars }} Stars <br> User review: {{ rating.review }}</li> <br>
   {% endfor %}
 </ul>
 

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.validators import RegexValidator
 
 
 # Create your models here.
@@ -41,9 +42,23 @@ class Movie(models.Model):
 
 
 class Rating(models.Model):
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    FOUR = 4
+    FIVE = 5
+
+    STAR_CHOICES = (
+        (ONE, '1'),
+        (TWO, '2'),
+        (THREE, '3'),
+        (FOUR, '4'),
+        (FIVE, '5'),
+    )
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    stars = models.PositiveIntegerField()
+    stars = models.IntegerField(choices=STAR_CHOICES)
+    review = models.CharField(max_length=400, null=True, blank=True)
 
     def __str__(self):
         return 'user {} gave {} {} stars.'.format(self.rater, self.movie, self.stars)

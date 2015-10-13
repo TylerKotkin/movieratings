@@ -7,10 +7,11 @@
 <h4> Movie ID: {{ movie.pk }} </h4>
 <h4> Average rating: {{ movie.average_rating|floatformat }} out of 5</h4>
 
+
 <br>
 <a href="{% url 'new_rating' movie.pk %}">Rate this movie</a><br>
 <a href="{% url 'edit_rating' %}">Edit rating</a><br>
-<a href="{% url 'remove_rating' movie.pk %}">Remove rating for this movie</a><br>
+<a href="{% url 'remove_rating' movie.pk %}">Delete rating</a><br>
 
 <br><br>
 

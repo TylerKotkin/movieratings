@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from .forms import RatingForm
+from .forms import RatingForm, EditForm
 
 
 
@@ -58,7 +58,7 @@ def rater_view(request, rater_id):
             'movie': rating.movie,
             'stars': '\u2605' * rating.stars,
         })
-    movie_ratings = rater.rating_set.all().order_by('-stars')
+
     return render(request,
                   'get_ratings/users.html',
                   {'rater': rater,
@@ -76,6 +76,7 @@ def profile_view(request, rater_id):
             'movie': rating.movie,
             'stars': '\u2605' * rating.stars,
         })
+    movie_ratings = rater.rating_set.all().order_by('-stars')
     return render(request,
                   'get_ratings/profile.html',
                   {'rater': rater,
@@ -101,7 +102,7 @@ def new_rating(request, movie_id):
 @login_required
 def edit_rating(request):
     try:
-        rating = request.user.rater
+        rating = request.user.rating
     except Rating.DoesNotExist:
         rating = Rating(user=request.user)
 
@@ -122,4 +123,5 @@ def edit_rating(request):
 def remove_rating(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     movie.rating_set.filter(rater=request.user.rater).delete()
+    messages.add_message(request, messages.SUCCESS, 'Your rating has been deleted')
     return redirect('movie_view', movie_id)
