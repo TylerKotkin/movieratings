@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Count, Avg
 from .models import Movie, Rater, Rating
@@ -78,7 +78,7 @@ def profile_view(request, rater_id):
                    'movie_ratings': movie_ratings})
 
 @login_required
-def new_rating(request):
+def new_rating(request, movie_id):
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
@@ -95,3 +95,9 @@ def new_rating(request):
         form = RatingForm()
 
     return render(request, 'get_ratings/new.html', {'form': form})
+
+@login_required
+def remove_rating(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    movie.rating_set.filter(rater=request.user.rater).delete()
+    return redirect('movie_view', movie_id)
