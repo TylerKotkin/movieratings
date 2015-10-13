@@ -90,6 +90,7 @@ def new_rating(request, movie_id):
             rating = form.save(commit=False)
             rating.rater = request.user.rater
             rating.movie = Movie.objects.get(pk=movie_id)
+            rating.posted_at = datetime.now()
             rating.save()
             return redirect('movie_view', rating.movie.pk)
     else:

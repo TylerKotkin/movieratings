@@ -8,7 +8,8 @@
 <p> Click on a movie to edit or delete its rating.</p>
 <ul>
   {% for rating in movie_ratings %}
-    <li><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a> - {{ rating.stars }} Stars <br> User review: {{ rating.review }}</li> <br>
+    <li><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a> - {{ rating.stars }} Stars <br> User review: {{ rating.review }} <br>
+    Time stamp: {{rating.posted_at}}</li> <br>
   {% endfor %}
 </ul>
 

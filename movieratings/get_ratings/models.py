@@ -59,6 +59,7 @@ class Rating(models.Model):
     movie = models.ForeignKey(Movie)
     stars = models.IntegerField(choices=STAR_CHOICES)
     review = models.CharField(max_length=400, null=True, blank=True)
+    posted_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return 'user {} gave {} {} stars.'.format(self.rater, self.movie, self.stars)
