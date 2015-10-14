@@ -17,11 +17,15 @@ from .forms import RatingForm, EditForm
 
 def movie_view(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
-    # ratings = '{}: Average Rating: {}'.format(movie.title, movie.average_rating())
-    # return HttpResponse(ratings)
+    try:
+        rater_stars = request.user.rater.rating_set.filter(movie_id=movie_id)[0].stars
+    except:
+        rater_stars = ''
     return render(request,
                   'get_ratings/movies.html',
-                  {'movie': movie})
+                  {'movie': movie,
+                   'rater_stars': rater_stars})
+
 
 
 
@@ -82,6 +86,7 @@ def profile_view(request, rater_id):
                   {'rater': rater,
                    'movie_ratings': movie_ratings})
 
+
 @login_required
 def new_rating(request, movie_id):
     if request.method == 'POST':
@@ -106,16 +111,13 @@ def edit_rating(request):
         rating = request.user.rating
     except Rating.DoesNotExist:
         rating = Rating(user=request.user)
-
     if request.method == 'GET':
         rating_form = RatingForm(instance=rating)
     elif request.method == 'POST':
         rating_form = RatingForm(instance=rating, data=request.POST)
-
         if rating_form.is_valid():
             rating_form.save()
             messages.add_message(request, messages.SUCCESS, 'Your rating has been updated')
-
     return render(request,
                   'get_ratings/edit_rating.html', {'form': rating_form})
 
