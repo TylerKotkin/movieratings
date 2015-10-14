@@ -2,9 +2,10 @@
 
 {% block content %}
 
-<h2>User ID: {{ rater.pk }}</h2>
+<h2>{{ rater.user }}</h2>
 
 <dl>
+  <dt>User ID#: {{ rater.pk }}</dt>
   <dt>Gender: {{ rater.gender }}</dt>
   <dt>Age Code: {{ rater.age }}</dt>
   <dt>Zip Code: {{ rater.zipcode }}</dt>

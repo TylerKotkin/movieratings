@@ -6,7 +6,15 @@
 
 <ul>
 {% for movie in movies %}
-  <li><a href="{% url 'movie_view' movie.pk %}">{{ movie.title }}</a> - {{ movie.rating__stars__avg|floatformat }}</li>
+  <li><a href="{% url 'movie_view' movie.pk %}">{{ movie.title }}</a> - {{ movie.rating__stars__avg|floatformat }} Stars</li>
+{% endfor %}
+</ul>
+
+<h2>Most Rated Movies</h2>
+
+<ul>
+{% for movie in most_movies %}
+  <li><a href="{% url 'movie_view' movie.pk %}">{{ movie.title }}</a> - {{ movie.num_ratings }} Ratings</li>
 {% endfor %}
 </ul>
 

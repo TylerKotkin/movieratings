@@ -6,6 +6,12 @@
 
 <h4> Movie ID: {{ movie.pk }} </h4>
 <h4> Average rating: {{ movie.average_rating|floatformat }} out of 5</h4>
+{% if rater_stars %}
+<h4> User rating: {{ rater_stars }} out of 5</h4>
+{% elif user.is_authenticated %}
+<p>
+  <a href="{% url 'new_rating' movie.pk %}">Rate this movie</a><br>
+{% endif %}
 
 <ul>
 {% for rating in movie.rating_set.all %}
