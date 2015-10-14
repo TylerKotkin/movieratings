@@ -23,7 +23,8 @@ def movie_view(request, movie_id):
     return render(request,
                   'get_ratings/movies.html',
                   {'movie': movie,
-                   'rater_stars': rater_stars})
+                   'rater_stars': rater_stars,
+                   })
 
 
 
@@ -41,7 +42,6 @@ def top_movies(request):
                            .order_by('-rating__stars__avg')[:20]
 
     most_movies = Movie.objects.annotate(num_ratings=Count('rating')).order_by('-num_ratings')[:20]
-
     return render(request,
                   'get_ratings/top_movies.html',
                   {'movies': movies,
@@ -79,7 +79,7 @@ def profile_view(request, rater_id):
             'movie': rating.movie,
             'stars': '\u2605' * rating.stars,
         })
-    movie_ratings = rater.rating_set.all().order_by('-stars')
+    movie_ratings = rater.rating_set.all().order_by('-stars', '-posted_at')
     return render(request,
                   'get_ratings/profile.html',
                   {'rater': rater,
