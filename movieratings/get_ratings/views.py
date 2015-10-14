@@ -5,7 +5,6 @@ from .models import Movie, Rater, Rating
 
 from datetime import datetime
 from django.contrib import messages
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from .forms import RatingForm, EditForm
@@ -98,6 +97,7 @@ def new_rating(request, movie_id):
             rating.posted_at = datetime.now()
             rating.save()
             return redirect('movie_view', rating.movie.pk)
+
     else:
         form = RatingForm()
     return render(request,
@@ -108,7 +108,7 @@ def new_rating(request, movie_id):
 @login_required
 def edit_rating(request):
     try:
-        rating = request.user.rating
+        rating = request.user.rater
     except Rating.DoesNotExist:
         rating = Rating(user=request.user)
     if request.method == 'GET':

@@ -1,32 +1,52 @@
+{% load staticfiles %}
+{% load bootstrap3 %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>Movie Ratings</title>
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery=True %}
+  <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
 </head>
 <body>
 
+  <div class="container">
+      <div class="header clearfix">
+        <nav>
+
+
+          </div>
+          <ul class="nav nav-pills pull-right">
+            {% if user.is_authenticated %}
+            <li role="presentation"><a href="{% url 'profile_view' user.pk %}">{{user.username}}</a></li>
+              <li role="presentation"><a href="{% url 'user_logout' %}">Logout</a></li>
+              {% else %}
+            <li role="presentation"><a href="{% url 'user_login' %}">Login</a></li>
+            <li role="presentation"><a href="{% url 'user_register' %}">Register</a></li>
+            {% endif %}
+            <li role="presentation"><a href="/">Top Movies</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted"><span aria-hidden="true"></span>Movie Ratings</h3>
+      </div>
+
+
   <div style="float:right;" align="right">
-      {% if user.is_authenticated %}
-      Logged in as {{user.username}} <br>
-      <a href="{% url 'profile_view' user.pk %}">profile</a> <br>
-      <a href="{% url 'user_logout' %}">logout</a>
-      {% else %}
-    <a href="{% url 'user_login' %}">login</a> <br>
-    <a href="{% url 'user_register' %}">register</a>
-      {% endif %}
+      
   </div>
 
-  <h1><a href="/">Movie Ratings</a></h1>
-  {% if messages %}
-      <ul class+"messages">
-      {% for message in messages %}
-      <li class="{{ messages.tags}}">{{ message }}</li>
-      {% endfor %}
+
+
+{% bootstrap_messages %}
+
+
     </ul>
-  {% endif %}
+
   {% block content %}
   {% endblock %}
 
+
+</div>
 
 </body>
 </html>
