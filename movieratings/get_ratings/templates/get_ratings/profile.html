@@ -5,7 +5,7 @@
 <h2>User: {{ rater.user.username }}</h2>
 {% if user == rater.user %}
 <h3>Rated Movies</h3>
-<p> Click on a movie to edit or delete its rating.</p>
+
 <ul>
   {% for rating in movie_ratings %}
     <li><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a>
