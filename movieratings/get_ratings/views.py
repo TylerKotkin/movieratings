@@ -96,6 +96,7 @@ def new_rating(request, movie_id):
             rating.movie = Movie.objects.get(pk=movie_id)
             rating.posted_at = datetime.now()
             rating.save()
+            messages.add_message(request, messages.SUCCESS, 'Your rating has been saved')
             return redirect('movie_view', rating.movie.pk)
 
     else:
@@ -106,20 +107,10 @@ def new_rating(request, movie_id):
 
 
 @login_required
-def edit_rating(request):
-    try:
-        rating = request.user.rater
-    except Rating.DoesNotExist:
-        rating = Rating(user=request.user)
-    if request.method == 'GET':
-        rating_form = RatingForm(instance=rating)
-    elif request.method == 'POST':
-        rating_form = RatingForm(instance=rating, data=request.POST)
-        if rating_form.is_valid():
-            rating_form.save()
-            messages.add_message(request, messages.SUCCESS, 'Your rating has been updated')
-    return render(request,
-                  'get_ratings/edit_rating.html', {'form': rating_form})
+def edit_rating(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    movie.rating_set.filter(rater=request.user.rater).delete()
+    return redirect('new_rating', movie_id)
 
 
 @login_required

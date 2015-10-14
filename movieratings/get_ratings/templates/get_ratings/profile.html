@@ -12,7 +12,7 @@
      Rating: {{ rating.stars }} Stars <br>
      Time stamp: {{rating.posted_at}} <br>
      User review: {{ rating.review }} <br>
-     <small> <a href="{% url 'edit_rating' %}">Edit</a> |  <a href="{% url 'remove_rating' rating.movie.pk %}">Delete</a></small>
+     <small> <a href="{% url 'edit_rating' rating.movie.pk %}">Edit</a> |  <a href="{% url 'remove_rating' rating.movie.pk %}">Delete</a></small>
    </li><br>
 
   {% endfor %}
