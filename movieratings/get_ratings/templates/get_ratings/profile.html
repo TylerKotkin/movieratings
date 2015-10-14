@@ -10,7 +10,7 @@
   {% for rating in movie_ratings %}
     <li><h5><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a></h5>
      Rating: {{ rating.stars }} Stars <br>
-     Time stamp: {{rating.posted_at}} <br>
+     Time stamp: {{rating.posted_at}} - {{rating.posted_at | timesince}} ago <br>
      User review: {{ rating.review }} <br>
      <small> <a href="{% url 'edit_rating' rating.movie.pk %}">Edit</a> |  <a href="{% url 'remove_rating' rating.movie.pk %}">Delete</a></small>
    </li><br>
