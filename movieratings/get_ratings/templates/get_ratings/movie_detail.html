@@ -15,7 +15,7 @@
 
 <ul>
 {% for rating in movie.rating_set.all %}
-  <li><a href="{% url 'profile_view' rating.rater.pk %}">{{ rating.rater }}</a>: {{ rating.stars }}</li>
+  <li><a href="{% url 'profile_view' rating.rater.pk %}">{{ rating.rater.user.username }}</a>: {{ rating.stars }}</li>
 {% endfor %}
 </ul>
 
