@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ rater.user }}</h2>
+
+<dl>
+  <dt>User ID#: {{ rater.pk }}</dt>
+  <dt>Gender: {{ rater.gender }}</dt>
+  <dt>Age Code: {{ rater.age }}</dt>
+  <dt>Zip Code: {{ rater.zipcode }}</dt>
+  <dt>Occupation Code: {{ rater.occupation }}</dt>
+</dl>
+
+
+  {% for rating in rater.rating_set.all %}
+    <p><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie.title }}</a> - {{ rating.stars }}</p>
+  {% endfor %}
+
+
+
+{% endblock %}
