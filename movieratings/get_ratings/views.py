@@ -3,11 +3,13 @@ from django.http import HttpResponse
 from django.db.models import Count, Avg
 from .models import Movie, Rater, Rating
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from .forms import RatingForm, EditForm
+from django.views import generic
 
 
 
@@ -30,22 +32,39 @@ def movie_view(request, movie_id):
 
 
 
-def top_movies(request):
-    # movies = Movie.objects.annotate(Avg('rating__stars')).order_by('-rating__stars__avg')[:20]
-    # movies = Movie.objects.order_by('-rating')[:20]
-    # top_20 = [str(movie) for movie in movies]
-    # return HttpResponse('<br>'.join(top_20))
-    popular_movies = Movie.objects.annotate(num_ratings=Count('rating')) \
-                                  .filter(num_ratings__gte=50)
+# def top_movies(request):
+#     popular_movies = Movie.objects.annotate(num_ratings=Count('rating')) \
+#                                   .filter(num_ratings__gte=50)
+#
+#     movies = popular_movies.annotate(Avg('rating__stars')) \
+#                            .order_by('-rating__stars__avg')[:20]
+#
+#     most_movies = Movie.objects.annotate(num_ratings=Count('rating')).order_by('-num_ratings')[:20]
+#     return render(request,
+#                   'get_ratings/top_movies.html',
+#                   {'movies': movies,
+#                    'most_movies': most_movies})
 
-    movies = popular_movies.annotate(Avg('rating__stars')) \
-                           .order_by('-rating__stars__avg')[:20]
+class TopIndexView(generic.ListView):
+    template_name = 'get_ratings/top_movies.html'
+    context_object_name = 'movies'
+    paginate_by = 20
 
-    most_movies = Movie.objects.annotate(num_ratings=Count('rating')).order_by('-num_ratings')[:20]
-    return render(request,
-                  'get_ratings/top_movies.html',
-                  {'movies': movies,
-                   'most_movies': most_movies})
+    def get_queryset(self):
+        movies = Movie.objects.annotate(num_ratings=Count('rating')) \
+                                      .filter(num_ratings__gte=50)
+        return movies.annotate(Avg('rating__stars')) \
+                               .order_by('-rating__stars__avg')
+
+class MostIndexView(generic.ListView):
+    template_name = 'get_ratings/most_movies.html'
+    context_object_name = 'most_movies'
+    paginate_by = 20
+
+    def get_queryset(self):
+        return Movie.objects.annotate(num_ratings=Count('rating')).order_by('-num_ratings')
+
+
 
 
 def rater_view(request, rater_id):
