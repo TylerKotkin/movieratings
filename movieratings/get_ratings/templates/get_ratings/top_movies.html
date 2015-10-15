@@ -6,7 +6,7 @@
 
 
 {% for movie in movies %}
-  <p>#{{ page_obj.start_index|add:forloop.counter0 }}: <a href="{% url 'movie_view' movie.pk %}">{{ movie.title }}</a> - {{ movie.rating__stars__avg|floatformat }} Stars</p>
+  <p>#{{ page_obj.start_index|add:forloop.counter0 }}: <a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a> - {{ movie.rating__stars__avg|floatformat }} Stars</p>
 {% endfor %}
 
 

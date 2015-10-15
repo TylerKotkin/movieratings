@@ -6,7 +6,7 @@
 
 
 {% for movie in most_movies %}
-<p>#{{ page_obj.start_index|add:forloop.counter0 }}: <a href="{% url 'movie_view' movie.pk %}">{{ movie.title }}</a> - {{ movie.num_ratings }} Ratings</p>
+<p>#{{ page_obj.start_index|add:forloop.counter0 }}: <a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a> - {{ movie.num_ratings }} Ratings</p>
 {% endfor %}
 
 {% bootstrap_pagination page_obj pages_to_show=5%}
