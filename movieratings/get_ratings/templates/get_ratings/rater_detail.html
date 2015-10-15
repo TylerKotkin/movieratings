@@ -7,8 +7,8 @@
 <h3>Rated Movies</h3>
 
 <ul>
-  {% for rating in movie_ratings %}
-    <li><h5><a href="{% url 'movie_view' rating.movie.pk %}">{{ rating.movie }}</a></h5>
+  {% for rating in rater.rating_set.all %}
+    <li><h5><a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie }}</a></h5>
      Rating: {{ rating.stars }} Stars <br>
      Review: {{ rating.review }} <br>
     {% if rating.posted_at %}

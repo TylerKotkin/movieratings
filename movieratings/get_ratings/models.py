@@ -25,7 +25,7 @@ class Rater(models.Model):
     user = models.OneToOneField(User, null=True)
 
     def __str__(self):
-        return 'user id: {}.'.format(self.id)
+        return 'user id: {}'.format(self.id)
         # return 'user id: {}. {} {} {} {} '.format(self.id, self.gender, self.zipcode, self.age, self.occupation)
 
 

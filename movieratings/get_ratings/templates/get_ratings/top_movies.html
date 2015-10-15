@@ -1,21 +1,15 @@
 {% extends "base.html" %}
-
+{% load bootstrap3 %}
 {% block content %}
 
 <h2>Top Movies</h2>
 
-<ul>
+
 {% for movie in movies %}
-  <li><a href="{% url 'movie_view' movie.pk %}">{{ movie.title }}</a> - {{ movie.rating__stars__avg|floatformat }} Stars</li>
+  <p>#{{ page_obj.start_index|add:forloop.counter0 }}: <a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a> - {{ movie.rating__stars__avg|floatformat }} Stars</p>
 {% endfor %}
-</ul>
 
-<h2>Most Rated Movies</h2>
 
-<ul>
-{% for movie in most_movies %}
-  <li><a href="{% url 'movie_view' movie.pk %}">{{ movie.title }}</a> - {{ movie.num_ratings }} Ratings</li>
-{% endfor %}
-</ul>
 
+  {% bootstrap_pagination page_obj pages_to_show=5%}
 {% endblock %}
